@@ -1,0 +1,11 @@
+# User-specific files
+*.suo
+*.user
+
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio 2015 and ReSharper cache/options directory
+.vs/
+_ReSharper.Caches/
