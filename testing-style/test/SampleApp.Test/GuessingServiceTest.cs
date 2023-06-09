@@ -40,6 +40,7 @@ public sealed class GuessingServiceTest : IAsyncLifetime
     [Fact]
     public void Guess_WrongGuess_Fail()
     {
+        Given_Random_SeededWith(0);
         Given_Service_Started();
         When_Service_Guess(1);
         Then_Result_Is(Fail);
@@ -48,6 +49,7 @@ public sealed class GuessingServiceTest : IAsyncLifetime
     [Fact]
     public void Guess_TooManyGuesses_Defeat()
     {
+        Given_Random_SeededWith(0);
         Given_Service_Started();
         When_Service_Guess(1);
         When_Service_Guess(2);
@@ -55,7 +57,21 @@ public sealed class GuessingServiceTest : IAsyncLifetime
         Then_Result_Is(Defeat);
     }
 
+    [Fact]
+    public void Guess_CorrectGuess_Victory()
+    {
+        Given_Random_SeededWith(5);
+        Given_Service_Started();
+        When_Service_Guess(3);
+        Then_Result_Is(Victory);
+    }
+
     #region given, when, then
+
+    private void Given_Random_SeededWith(int seed)
+    {
+        _bootstrapper.ConfigureServices(s => s.Replace(ServiceDescriptor.Singleton(_ => new Random(seed))));
+    }
 
     private void Given_Service_Started()
     {
