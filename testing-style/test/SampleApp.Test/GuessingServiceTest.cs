@@ -2,13 +2,31 @@ using static SampleApp.GuessingResult;
 
 namespace SampleApp;
 
-public sealed class GuessingServiceTest
+public sealed class GuessingServiceTest : IAsyncLifetime
 {
     #region state
 
-    private readonly IGuessingService _service = new GuessingService(new Random());
+    private readonly ServiceProviderBootstrapper _bootstrapper = new ServiceProviderBootstrapper()
+        .ConfigureServices(s => s.AddApp());
+
     private Guid _id = Guid.NewGuid();
     private GuessingResult? _result;
+
+    private IGuessingService Service => _bootstrapper.GetRequiredService<IGuessingService>();
+
+    #endregion
+
+    #region lifecycle
+
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public async Task DisposeAsync()
+    {
+        await _bootstrapper.DisposeAsync();
+    }
 
     #endregion
 
@@ -41,12 +59,12 @@ public sealed class GuessingServiceTest
 
     private void Given_Service_Started()
     {
-        _id = _service.Start();
+        _id = Service.Start();
     }
 
     private void When_Service_Guess(int value)
     {
-        _result = _service.TryGuess(_id, value);
+        _result = Service.TryGuess(_id, value);
     }
 
     private void Then_Result_IsNull()
