@@ -1,6 +1,21 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+using SampleApp;
 
-app.MapGet("/", () => "Hello World!");
+var builder = SampleAppHost.CreateHostBuilder(args);
 
-app.Run();
+var host = builder.Build();
+try
+{
+    await host.RunAsync().ConfigureAwait(false);
+}
+finally
+{
+    switch (host)
+    {
+        case IAsyncDisposable asyncDisposable:
+            await asyncDisposable.DisposeAsync().ConfigureAwait(false);
+            break;
+        default:
+            host.Dispose();
+            break;
+    }
+}
