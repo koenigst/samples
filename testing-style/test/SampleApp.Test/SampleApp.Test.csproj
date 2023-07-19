@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>SampleApp</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="InjectedTests.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="InjectedTests.Extensions.DependencyInjection" />
+    <PackageReference Include="Moq" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\SampleApp\SampleApp.csproj" />
+  </ItemGroup>
+
+</Project>
