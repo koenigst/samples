@@ -7,7 +7,10 @@ All code in this repository is free to copy (see [license][license]) and reuse.
 
 * C#
 
-  * [Testing style][testing-style] shows how I like to write my tests.
+  * [Testing style][testingStyle] shows how I like to write my tests.
+
+  * [Solution structure][solutionStructure] shows how I like to structure my solutions.
 
 [license]: LICENSE
-[testing-style]: testing-style
+[testingStyle]: testing-style
+[solutionStructure]: solution-structure

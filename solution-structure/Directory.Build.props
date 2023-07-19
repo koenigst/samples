@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Contains common project configuration defaults (see https://learn.microsoft.com/en-us/visualstudio/msbuild/customize-by-directory#directorybuildprops-and-directorybuildtargets) -->
+<Project>
+
+  <!-- Add common project configuration properties -->
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <LangVersion>11.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <Deterministic>true</Deterministic>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AnalysisMode>All</AnalysisMode>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <!-- Add usings for commonly used namespaces -->
+  <ItemGroup>
+    <Using Include="Microsoft.Extensions.DependencyInjection" />
+    <Using Include="Microsoft.Extensions.DependencyInjection.Extensions" />
+  </ItemGroup>
+
+</Project>

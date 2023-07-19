@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Contains common test project configuration defaults (see https://learn.microsoft.com/en-us/visualstudio/msbuild/customize-by-directory#directorybuildprops-and-directorybuildtargets) -->
+<Project>
+
+  <!-- Import the next level of configuration defaults as the project only imports the closest file (see https://learn.microsoft.com/en-us/visualstudio/msbuild/customize-by-directory#use-case-multi-level-merging). -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <!-- Include commonly used packages. -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" >
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <!-- Add usings for commonly used test namespaces -->
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>
