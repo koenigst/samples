@@ -1,3 +1,7 @@
 # Package Managers
 package-lock.json
 node_modules/
+
+# Output
+.playwright/
+.svelte-kit/

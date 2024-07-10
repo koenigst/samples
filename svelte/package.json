@@ -3,14 +3,43 @@
 	"version": "0.0.1",
 	"author": "koenigst",
 	"license": "MIT-0",
+	"type": "module",
+	"private": true,
 	"scripts": {
+		"build": "vite build",
+		"ci": "npm run build && npm run lint && npm test",
 		"format": "prettier --write .",
-		"lint": "npm run lint:prettier",
+		"lint": "npm run lint:svelte && npm run lint:prettier && npm run lint:eslint",
+		"lint:svelte": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"lint:prettier": "prettier --check .",
-		"start": "echo \"Error: no start specified\" && exit 1",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"lint:eslint": "eslint .",
+		"preview": "vite preview",
+		"start": "vite dev",
+		"test": "npm run test:component && npm run test:e2e",
+		"test:component": "vitest run",
+		"test:e2e": "playwright test"
 	},
 	"devDependencies": {
-		"prettier": "3.3.2"
+		"@playwright/test": "1.45.1",
+		"@sveltejs/adapter-auto": "3.2.2",
+		"@sveltejs/kit": "2.5.18",
+		"@sveltejs/vite-plugin-svelte": "3.1.1",
+		"@testing-library/jest-dom": "6.4.6",
+		"@testing-library/svelte": "5.2.0",
+		"@types/eslint": "8.56.10",
+		"eslint": "9.6.0",
+		"eslint-config-prettier": "9.1.0",
+		"eslint-plugin-svelte": "2.42.0",
+		"globals": "15.8.0",
+		"jsdom": "24.1.0",
+		"prettier": "3.3.2",
+		"prettier-plugin-svelte": "3.2.5",
+		"svelte": "4.2.18",
+		"svelte-check": "3.8.4",
+		"tslib": "2.6.3",
+		"typescript": "5.5.3",
+		"typescript-eslint": "8.0.0-alpha.41",
+		"vite": "5.3.3",
+		"vitest": "2.0.2"
 	}
 }
