@@ -6,6 +6,15 @@
 [Bb]in/
 [Oo]bj/
 
+# Node
+node_modules
+
 # Visual Studio 2015 and ReSharper cache/options directory
 .vs/
 _ReSharper.Caches/
+
+# Svelte
+.svelte-kit/
+
+# Playwright
+.playwright/
