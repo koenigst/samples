@@ -1,0 +1,16 @@
+{
+	"name": "demos",
+	"version": "0.0.1",
+	"author": "koenigst",
+	"license": "MIT-0",
+	"scripts": {
+		"format": "prettier --write .",
+		"lint": "npm run lint:prettier",
+		"lint:prettier": "prettier --check .",
+		"start": "echo \"Error: no start specified\" && exit 1",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"devDependencies": {
+		"prettier": "3.3.2"
+	}
+}
