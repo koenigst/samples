@@ -4,13 +4,31 @@
 	"author": "koenigst",
 	"license": "MIT-0",
 	"scripts": {
+		"build": "next build",
+		"ci": "npm run build && npm run lint && npm test",
 		"format": "prettier --write .",
-		"lint": "npm run lint:prettier",
+		"lint": "npm run lint:prettier && npm run lint:next",
+		"lint:next": "next lint",
 		"lint:prettier": "prettier --check .",
-		"start": "echo \"Error: no start specified\" && exit 1",
+		"start": "next dev",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
+	"dependencies": {
+		"next": "14.2.5",
+		"react": "18",
+		"react-dom": "18"
+	},
 	"devDependencies": {
-		"prettier": "3.3.2"
+		"@types/eslint": "8.56.10",
+		"@types/node": "20.14.11",
+		"@types/react": "18.3.3",
+		"@types/react-dom": "18.3.0",
+		"eslint": "8.57.0",
+		"eslint-config-next": "14.2.5",
+		"eslint-config-prettier": "8.10.0",
+		"postcss": "8.4.39",
+		"prettier": "3.3.3",
+		"tailwindcss": "3.4.6",
+		"typescript": "5.5.3"
 	}
 }
