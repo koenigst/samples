@@ -11,6 +11,8 @@ All code in this repository is free to copy (see [license][license]) and reuse.
 
   * [Solution structure][solutionStructure] shows how I like to structure my solutions.
 
+  * [WPF sample][wpfSample] has some WPF samples.
+
 * Typescript & Node
 
   * [Svelte sample application][svelteApp] is a sample application that goes a bit beyond the [Svelte tutorial][svelteTutorial].
@@ -19,5 +21,6 @@ All code in this repository is free to copy (see [license][license]) and reuse.
 [license]: LICENSE
 [testingStyle]: testing-style
 [solutionStructure]: solution-structure
+[wpfSample]: wpf
 [svelteApp]: svelte
 [svelteTutorial]: https://learn.svelte.dev/tutorial/welcome-to-svelte

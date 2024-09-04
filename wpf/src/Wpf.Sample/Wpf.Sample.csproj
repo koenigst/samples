@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Wpf.Hosting\Wpf.Hosting.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="splash.png" />
+    <SplashScreen Include="splash.png" />
+  </ItemGroup>
+
+</Project>
