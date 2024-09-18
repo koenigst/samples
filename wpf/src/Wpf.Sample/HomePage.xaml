@@ -1,0 +1,23 @@
+<Page
+    x:Class="Wpf.Sample.HomePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:sample="clr-namespace:Wpf.Sample"
+    mc:Ignorable="d" 
+    d:DesignHeight="450" d:DesignWidth="800"
+    Title="HomePage"
+    d:DataContext="{d:DesignInstance Type={x:Type sample:HomePageViewModel}}">
+    <Grid IsEnabled="{Binding RelativeSource={RelativeSource Self}, Path=DataContext, Converter={StaticResource Converter.IsNotNull}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Button Grid.Column="0" Command="{Binding Stop}">Stop</Button>
+        <Button Grid.Column="1" Command="{Binding ThrowException}">Throw exception</Button>
+        <Button Grid.Column="2" Command="{Binding NavigateOtherPage}" CommandParameter="{Binding Path=(NavigationService.NavigationService), RelativeSource={RelativeSource Self}}">Other page</Button>
+    </Grid>
+</Page>

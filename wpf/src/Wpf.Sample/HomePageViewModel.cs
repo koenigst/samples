@@ -1,22 +1,25 @@
 using System.IO;
 using System.Windows.Input;
+using Wpf.Navigation;
 
 namespace Wpf.Sample;
 
-public sealed class ApplicationViewModel
+public sealed class HomePageViewModel
 {
     private readonly IHostApplicationLifetime _applicationLifetime;
 
-    public ApplicationViewModel(IHostApplicationLifetime applicationLifetime)
+    public HomePageViewModel(IHostApplicationLifetime applicationLifetime)
     {
         _applicationLifetime = applicationLifetime;
 
         Stop = new DelegateCommand(ExecuteStop);
         ThrowException = new DelegateCommand(ExecuteThrowException);
+        NavigateOtherPage = NavigationCommand.Create(() => new("/OtherPage.xaml", UriKind.Relative));
     }
 
     public ICommand Stop { get; }
     public ICommand ThrowException { get; }
+    public NavigationCommand NavigateOtherPage { get; }
 
     private void ExecuteStop()
     {
