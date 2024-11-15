@@ -2,11 +2,15 @@ using System.Windows;
 
 namespace Wpf.Hosting;
 
-public class HostingApplication : Application
+public class HostingApplication : Application, IDisposable
 {
-    private readonly HostRunner _host = new();
+    protected HostRunner Host { get; } = new();
 
-    protected virtual TimeSpan StopTimeout => TimeSpan.FromSeconds(30);
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
 
     protected virtual void Configure(IHostBuilder builder, string[] args)
     {
@@ -18,26 +22,15 @@ public class HostingApplication : Application
     protected sealed override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
-        Configure(_host.Builder, e.Args);
-        _host.Run();
+        Configure(Host.Builder, e.Args);
+        Host.Start();
     }
 
-    protected sealed override void OnExit(ExitEventArgs e)
+    protected virtual void Dispose(bool disposing)
     {
-        try
+        if (disposing)
         {
-            try
-            {
-                base.OnExit(e);
-            }
-            finally
-            {
-                _host.StopAndWait(StopTimeout);
-            }
-        }
-        finally
-        {
-            _host.Dispose();
+            Host.Dispose();
         }
     }
 }

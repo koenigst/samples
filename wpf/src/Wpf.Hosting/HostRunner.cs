@@ -1,48 +1,93 @@
 namespace Wpf.Hosting;
 
-public sealed class HostRunner : IDisposable
+public sealed class HostRunner : IDisposable, IAsyncDisposable
 {
-    private readonly CancellationTokenSource _runHostCancellation = new();
-    private volatile ManualResetEventSlim? _runHostCompletedEvent;
+    private volatile object? _state;
 
     public IHostBuilder Builder { get; } = new HostBuilder();
 
-    public async void Run()
+    public void Start()
     {
-        if (Interlocked.CompareExchange(ref _runHostCompletedEvent, new(), null) is not null)
+        var run = new HostRun(this);
+
+        if (Interlocked.CompareExchange(ref _state, run, null) is not null)
         {
             throw new InvalidOperationException("Can only run once.");
         }
 
-        try
-        {
-            await Task
-                .Run(RunHostAsync, _runHostCancellation.Token)
-                .ConfigureAwait(false);
-        }
-        finally
-        {
-            _runHostCompletedEvent.Set();
-        }
-    }
-
-    public void StopAndWait(TimeSpan timeout)
-    {
-        _runHostCancellation.Cancel();
-        _runHostCompletedEvent?.Wait(timeout);
+        run.EnsureStarted();
     }
 
     public void Dispose()
     {
-        _runHostCompletedEvent?.Dispose();
-        _runHostCancellation.Dispose();
+        Wait(DisposeAsync());
     }
 
-    private async Task RunHostAsync()
+    public async ValueTask DisposeAsync()
+    {
+        if (Interlocked.Exchange(ref _state, "disposed") is HostRun run)
+        {
+            await run.DisposeAsync().ConfigureAwait(false);
+        }
+    }
+
+    private async Task RunAsync(Task stopTrigger)
+    {
+        Task runTask;
+
+        using var cancellation = new CancellationTokenSource();
+        try
+        {
+            var cancellationToken = cancellation.Token;
+            runTask = Task.Run(() => RunHostAsync(cancellationToken), cancellationToken);
+
+            await Task.WhenAny(runTask, stopTrigger).ConfigureAwait(false);
+        }
+        finally
+        {
+            await cancellation.CancelAsync().ConfigureAwait(false);
+        }
+
+        await runTask.ConfigureAwait(false);
+    }
+
+    private async Task RunHostAsync(CancellationToken cancellationToken)
     {
         await Builder
             .Build()
-            .RunAsync(_runHostCancellation.Token)
+            .RunAsync(cancellationToken)
             .ConfigureAwait(false);
+    }
+
+    private static void Wait(ValueTask task)
+    {
+        if (task.IsCompletedSuccessfully)
+        {
+            return;
+        }
+
+        task.AsTask().GetAwaiter().GetResult();
+    }
+
+    private sealed class HostRun : IAsyncDisposable
+    {
+        private readonly TaskCompletionSource _stopSource = new();
+        private readonly Lazy<Task> _runCache;
+
+        public HostRun(HostRunner runner)
+        {
+            _runCache = new(() => runner.RunAsync(_stopSource.Task));
+        }
+
+        public void EnsureStarted()
+        {
+            _ = _runCache.Value;
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            _stopSource.TrySetResult();
+            await _runCache.Value.ConfigureAwait(false);
+        }
     }
 }

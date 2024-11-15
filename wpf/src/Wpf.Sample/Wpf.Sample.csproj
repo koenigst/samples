@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <UseWPF>true</UseWPF>
+    <StartupObject>Wpf.Sample.Programme</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
