@@ -1,3 +1,4 @@
+using Wpf.Interaction;
 using Wpf.Navigation;
 
 namespace Wpf.Sample;
@@ -7,6 +8,8 @@ public static class ApplicationServiceCollectionExtensions
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddNavigation();
+
+        services.TryAddSingleton<ICommandContext, CommandContext>();
 
         services.TryAddScoped<HomePageViewModel>();
 

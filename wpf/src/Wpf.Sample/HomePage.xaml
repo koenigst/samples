@@ -14,10 +14,12 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <Button Grid.Column="0" Command="{Binding Stop}">Stop</Button>
         <Button Grid.Column="1" Command="{Binding ThrowException}">Throw exception</Button>
-        <Button Grid.Column="2" Command="{Binding NavigateOtherPage}" CommandParameter="{Binding Path=(NavigationService.NavigationService), RelativeSource={RelativeSource Self}}">Other page</Button>
+        <Button Grid.Column="2" Command="{Binding Slow}">Slow</Button>
+        <Button Grid.Column="3" Command="{Binding NavigateOtherPage}" CommandParameter="{Binding Path=(NavigationService.NavigationService), RelativeSource={RelativeSource Self}}">Other page</Button>
     </Grid>
 </Page>

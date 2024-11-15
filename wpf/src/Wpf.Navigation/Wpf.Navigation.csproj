@@ -8,4 +8,8 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Wpf.Interaction\Wpf.Interaction.csproj" />
+  </ItemGroup>
+
 </Project>

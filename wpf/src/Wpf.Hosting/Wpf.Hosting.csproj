@@ -8,4 +8,8 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Using Include="Microsoft.Extensions.Hosting" />
+  </ItemGroup>
+
 </Project>

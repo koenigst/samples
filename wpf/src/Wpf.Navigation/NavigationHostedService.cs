@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Navigation;
 using System.Windows.Threading;
+using Microsoft.Extensions.Hosting;
 
 namespace Wpf.Navigation;
 

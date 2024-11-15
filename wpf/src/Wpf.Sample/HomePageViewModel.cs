@@ -1,5 +1,6 @@
 using System.IO;
-using System.Windows.Input;
+using Microsoft.Extensions.Hosting;
+using Wpf.Interaction;
 using Wpf.Navigation;
 
 namespace Wpf.Sample;
@@ -8,18 +9,22 @@ public sealed class HomePageViewModel
 {
     private readonly IHostApplicationLifetime _applicationLifetime;
 
-    public HomePageViewModel(IHostApplicationLifetime applicationLifetime)
+    public HomePageViewModel(
+        IHostApplicationLifetime applicationLifetime,
+        ICommandContext commandContext)
     {
         _applicationLifetime = applicationLifetime;
 
-        Stop = new DelegateCommand(ExecuteStop);
-        ThrowException = new DelegateCommand(ExecuteThrowException);
-        NavigateOtherPage = NavigationCommand.Create(() => new("/OtherPage.xaml", UriKind.Relative));
+        Stop = commandContext.Create(ExecuteStop);
+        ThrowException = commandContext.Create(ExecuteThrowException);
+        Slow = commandContext.Create(ExecuteSlow);
+        NavigateOtherPage = commandContext.CreateNavigate(() => new("/OtherPage.xaml", UriKind.Relative));
     }
 
-    public ICommand Stop { get; }
-    public ICommand ThrowException { get; }
-    public NavigationCommand NavigateOtherPage { get; }
+    public IAsyncCommand Stop { get; }
+    public IAsyncCommand ThrowException { get; }
+    public IAsyncCommand Slow { get; }
+    public IAsyncCommand NavigateOtherPage { get; }
 
     private void ExecuteStop()
     {
@@ -31,22 +36,8 @@ public sealed class HomePageViewModel
         throw new IOException("boom!");
     }
 
-    private sealed class DelegateCommand(Action action) : ICommand
+    private static async ValueTask ExecuteSlow()
     {
-        public bool CanExecute(object? parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object? parameter)
-        {
-            action();
-        }
-
-        public event EventHandler? CanExecuteChanged
-        {
-            add { }
-            remove { }
-        }
+        await Task.Delay(TimeSpan.FromSeconds(1)).ConfigureAwait(false);
     }
 }

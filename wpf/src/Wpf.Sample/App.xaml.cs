@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Hosting;
+
 namespace Wpf.Sample;
 
 public sealed partial class App
