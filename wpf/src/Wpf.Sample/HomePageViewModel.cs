@@ -1,5 +1,6 @@
 using System.IO;
 using System.Windows.Input;
+using Microsoft.Extensions.Hosting;
 using Wpf.Navigation;
 
 namespace Wpf.Sample;

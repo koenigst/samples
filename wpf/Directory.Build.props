@@ -16,7 +16,6 @@
   <ItemGroup>
     <Using Include="Microsoft.Extensions.DependencyInjection" />
     <Using Include="Microsoft.Extensions.DependencyInjection.Extensions" />
-    <Using Include="Microsoft.Extensions.Hosting" />
   </ItemGroup>
 
 </Project>
