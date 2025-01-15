@@ -7,6 +7,11 @@ const config = {
 
 	kit: {
 		adapter: adapter(),
+		typescript: {
+			config: (c) => {
+				c.include.push('../vitest-setup.ts')
+			},
+		},
 	},
 }
 

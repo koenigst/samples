@@ -3,11 +3,11 @@
 	import type { SubmitEvent } from '$lib'
 	import { FormEnhancer } from '$lib'
 
-	export let data
+	const { data } = $props()
 
 	let messageForm: HTMLFormElement
 
-	let submittedMessages: string[] = []
+	let submittedMessages: string[] = $state([])
 
 	const formEnhancer = new FormEnhancer(() => messageForm, { submit: appendMessage })
 
@@ -31,7 +31,7 @@
 {/await}
 
 <form bind:this={messageForm} method="POST" use:enhance={(e) => formEnhancer.submit(e)}>
-	<!-- svelte-ignore a11y-autofocus -->
+	<!-- svelte-ignore a11y_autofocus -->
 	<input name="message" type="text" autofocus />
 	<button disabled={$sending}>Send</button>
 </form>

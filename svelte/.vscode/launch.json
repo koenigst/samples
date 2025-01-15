@@ -2,10 +2,18 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"command": "npm start",
 			"name": "Run development server",
+			"type": "node-terminal",
 			"request": "launch",
-			"type": "node-terminal"
+			"command": "npm start"
+		},
+		{
+			"name": "Debug Current Component Test File",
+			"type": "node-terminal",
+			"request": "launch",
+			"command": "npm run test:component ${relativeFile}",
+			"autoAttachChildProcesses": true,
+			"smartStep": true
 		}
 	]
 }

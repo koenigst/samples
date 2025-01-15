@@ -1,5 +1,5 @@
 <script>
-	export let data
+	const { data, children } = $props()
 </script>
 
 <nav>
@@ -8,4 +8,4 @@
 	{/each}
 </nav>
 
-<slot></slot>
+{@render children()}
