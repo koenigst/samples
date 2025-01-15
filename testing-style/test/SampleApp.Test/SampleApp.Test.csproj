@@ -7,7 +7,6 @@
   <ItemGroup>
     <PackageReference Include="InjectedTests.AspNetCore.Mvc.Testing" />
     <PackageReference Include="InjectedTests.Extensions.DependencyInjection" />
-    <PackageReference Include="Moq" />
   </ItemGroup>
 
   <ItemGroup>

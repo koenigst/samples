@@ -4,11 +4,11 @@ using static SampleApp.GuessingResult;
 
 namespace SampleApp;
 
-public sealed class GuessingApiTest : IAsyncLifetime
+public sealed class GuessingApiTest : IAsyncDisposable
 {
     #region state
 
-    private readonly WebApplicationBootstrapper<SampleAppHost> _bootstrapper = new();
+    private readonly WebApplicationBootstrapper _bootstrapper = new WebApplicationBootstrapper<SampleAppHost>();
 
     private Guid _id = Guid.NewGuid();
     private HttpStatusCode? _statusCode;
@@ -22,12 +22,7 @@ public sealed class GuessingApiTest : IAsyncLifetime
 
     #region lifecycle
 
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         await _bootstrapper.DisposeAsync();
     }
@@ -132,9 +127,20 @@ public sealed class GuessingApiTest : IAsyncLifetime
 
     private IGuessingService Helper_CreateMockGuessingService(IServiceProvider services)
     {
-        var mock = new Mock<IGuessingService>();
-        mock.Setup(m => m.Start()).Returns(() => _id);
-        return mock.Object;
+        return new GuessingServiceFake(_id);
+    }
+
+    private sealed class GuessingServiceFake(Guid fakeId) : IGuessingService
+    {
+        public Guid Start()
+        {
+            return fakeId;
+        }
+
+        public GuessingResult? TryGuess(Guid id, int value)
+        {
+            throw new NotSupportedException();
+        }
     }
 
     #endregion

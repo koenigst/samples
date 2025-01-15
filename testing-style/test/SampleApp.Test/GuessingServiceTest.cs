@@ -2,7 +2,7 @@ using static SampleApp.GuessingResult;
 
 namespace SampleApp;
 
-public sealed class GuessingServiceTest : IAsyncLifetime
+public sealed class GuessingServiceTest : IAsyncDisposable
 {
     #region state
 
@@ -18,12 +18,7 @@ public sealed class GuessingServiceTest : IAsyncLifetime
 
     #region lifecycle
 
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         await _bootstrapper.DisposeAsync();
     }
