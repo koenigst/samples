@@ -79,9 +79,10 @@ public sealed class HostRunner : IDisposable, IAsyncDisposable
             _runCache = new(() => runner.RunAsync(_stopSource.Task));
         }
 
-        public void EnsureStarted()
+        // ReSharper disable once AsyncVoidMethod - By design to crash the application if the run fails
+        public async void EnsureStarted()
         {
-            _ = _runCache.Value;
+            await _runCache.Value.ConfigureAwait(false);
         }
 
         public async ValueTask DisposeAsync()
