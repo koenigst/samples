@@ -2,6 +2,9 @@ use std::{
     cell::LazyCell, collections::HashMap, fs::read_to_string, str::Lines
 };
 
+pub trait IntoLines<'a> : IntoIterator<Item = &'a str> {}
+impl<'a, T: IntoIterator<Item = &'a str>> IntoLines<'a> for T {}
+
 pub struct ReadLines {
     content: String,
 }
