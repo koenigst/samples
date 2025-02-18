@@ -6,6 +6,7 @@ mod day02;
 mod day03;
 mod day04;
 mod day05;
+mod day06;
 mod utilities;
 
 fn main() {
@@ -28,4 +29,8 @@ fn main() {
     let day05_input = read_lines("src/day05/input.txt");
     println!("Day 05g: {}", day05::compute_solution_gold(&day05_input));
     println!("Day 05s: {}", day05::compute_solution_silver(&day05_input));
+
+    let day06_input = read_lines("src/day06/input.txt");
+    println!("Day 06g: {}", day06::compute_solution_gold(&day06_input));
+    println!("Day 06s: {}", day06::compute_solution_silver(&day06_input));
 }
