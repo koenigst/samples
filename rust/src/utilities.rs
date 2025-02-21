@@ -1,26 +1,7 @@
-use std::{
-    cell::LazyCell, collections::HashMap, fs::read_to_string, str::Lines
-};
+use std::{ cell::LazyCell, collections::HashMap };
 
 pub trait IntoLines<'a> : IntoIterator<Item = &'a str> {}
 impl<'a, T: IntoIterator<Item = &'a str>> IntoLines<'a> for T {}
-
-pub struct ReadLines {
-    content: String,
-}
-
-impl<'a> IntoIterator for &'a ReadLines {
-    type Item = &'a str;
-    type IntoIter = Lines<'a>;
-
-    fn into_iter(self) -> Self::IntoIter {
-        self.content.lines()
-    }
-}
-
-pub fn read_lines(path: &str) -> ReadLines {
-    ReadLines { content: read_to_string(path).unwrap(), }
-}
 
 pub fn group_join<'a, OS, IS, K, OKS, IKS, R, RS>(outer_source: OS, inner_source: IS, outer_key_selector: OKS, inner_key_selector: IKS, result_selector: RS) -> impl 'a + Iterator<Item = R>
 where
