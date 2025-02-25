@@ -1,18 +1,20 @@
 use std::{collections::HashMap, sync::LazyLock};
 
-pub const DIRECTION_RIGHT : Direction = Direction(0, 1);
-pub const DIRECTION_DOWN : Direction = Direction(1, 0);
-pub const DIRECTION_LEFT : Direction = Direction(0, -1);
-pub const DIRECTION_UP : Direction = Direction(-1, 0);
+use crate::vector::Direction;
 
-const DIRECTIONS : &[Direction] = &[
+pub static DIRECTION_RIGHT : CardinalDirection = CardinalDirection(Direction(0, 1));
+pub static DIRECTION_DOWN : CardinalDirection = CardinalDirection(Direction(1, 0));
+pub static DIRECTION_LEFT : CardinalDirection = CardinalDirection(Direction(0, -1));
+pub static DIRECTION_UP : CardinalDirection = CardinalDirection(Direction(-1, 0));
+
+const DIRECTIONS : &[CardinalDirection] = &[
     DIRECTION_RIGHT,
     DIRECTION_DOWN,
     DIRECTION_LEFT,
     DIRECTION_UP,
 ];
 
-static DIRECTION_MAP : LazyLock<HashMap<char, Direction>> = LazyLock::new(|| HashMap::from([
+static DIRECTION_MAP : LazyLock<HashMap<char, CardinalDirection>> = LazyLock::new(|| HashMap::from([
     ('>', DIRECTION_RIGHT),
     ('V', DIRECTION_DOWN),
     ('<', DIRECTION_LEFT),
@@ -20,10 +22,10 @@ static DIRECTION_MAP : LazyLock<HashMap<char, Direction>> = LazyLock::new(|| Has
 ]));
 
 #[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
-pub struct Direction(pub i32, pub i32);
+pub struct CardinalDirection(Direction);
 
-impl Direction {
-    pub fn turn_right(self) -> Direction {
+impl CardinalDirection {
+    pub fn turn_right(self) -> CardinalDirection {
         DIRECTIONS
             .iter()
             .skip_while(|d| !self.eq(&d))
@@ -34,7 +36,13 @@ impl Direction {
     }    
 }
 
-impl TryFrom<char> for Direction {
+impl From<CardinalDirection> for Direction {
+    fn from(value: CardinalDirection) -> Self {
+        value.0
+    }
+}
+
+impl TryFrom<char> for CardinalDirection {
     type Error = char;
 
     fn try_from(value: char) -> Result<Self, Self::Error> {

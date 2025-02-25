@@ -1,5 +1,7 @@
 use std::collections::HashSet;
 
+use crate::vector::Position;
+
 use super::map::*;
 use super::parsing::Parsed;
 

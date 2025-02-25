@@ -1,5 +1,6 @@
 use crate::utilities::IntoLines;
-use super::direction::Direction;
+use crate::vector::Position;
+use super::direction::CardinalDirection;
 use super::map::*;
 
 pub struct Parsed(pub Map, pub Guard);
@@ -28,7 +29,7 @@ impl<'a, T: IntoLines<'a>> From<T> for Parsed {
     }
 }
 
-struct ParsedPoint(bool, Option<Direction>);
+struct ParsedPoint(bool, Option<CardinalDirection>);
 
 impl From<char> for ParsedPoint {
     fn from(value: char) -> Self {

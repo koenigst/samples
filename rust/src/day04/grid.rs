@@ -1,20 +1,28 @@
-use super::location::Location;
+use crate::vector::*;
 
 pub struct Grid {
     content: Vec<Vec<char>>
 }
 
 impl Grid {    
-    pub fn try_get(&self, location: Location) -> Option<&char> {
-        self.content.get(location.0).and_then(|l| l.get(location.1))
+    pub fn try_get(&self, position: Position) -> Option<&char> {
+        self.content.get(position.0).and_then(|l| l.get(position.1))
     }
 
-    pub fn iter(&self) -> impl Iterator<Item = (&Grid, Location)> {
+    pub fn iter(&self) -> impl Iterator<Item = (&Grid, Position)> {
         self.content
             .iter()
             .enumerate()
-            .flat_map(|(li, l)| l.iter().enumerate().map(move |(ci, _)| Location(li, ci)))
+            .flat_map(|(li, l)| l.iter().enumerate().map(move |(ci, _)| Position(li, ci)))
             .map(move |l| (self, l))
+    }
+
+    pub fn search(&self, vector: &Vector, term: &str) -> bool {
+        term
+            .chars()
+            .enumerate()
+            .map(|(i, c)| (i.try_into().and_then(|i| vector.0 + (vector.1 * i)).ok(), c))
+            .all(|(ml, c)| ml.and_then(|l| self.try_get(l)).is_some_and(|&v| v == c))
     }
 }
 

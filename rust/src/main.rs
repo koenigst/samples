@@ -10,6 +10,7 @@ mod day06;
 mod day07;
 mod solver;
 mod utilities;
+mod vector;
 
 fn main() {
     let exec = &mut CliArgs::load().into();

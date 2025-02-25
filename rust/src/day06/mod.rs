@@ -1,8 +1,7 @@
 use std::collections::HashSet;
-use map::*;
 use parsing::Parsed;
 use processing::*;
-use crate::utilities::IntoLines;
+use crate::{utilities::IntoLines, vector::Position};
 
 mod direction;
 mod map;

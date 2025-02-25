@@ -1,10 +1,10 @@
+use std::num::TryFromIntError;
+
 use grid::Grid;
-use location::*;
-use vector::Vector;
+
+use crate::vector::*;
 
 mod grid;
-mod location;
-mod vector;
 
 pub fn compute_solution_gold<'a, T>(input: T) -> usize
     where T : 'a + IntoIterator<Item = &'a str>
@@ -20,7 +20,7 @@ pub fn compute_solution_silver<'a, T>(input: T) -> usize
 
 fn search_input<'a, O>(
     input: impl 'a + IntoIterator<Item = &'a str>,
-    search: impl Fn(&Grid, Location) -> O) -> Vec<O>
+    search: impl Fn(&Grid, Position) -> O) -> Vec<O>
 {
     Grid::from_iter(input)
         .iter()
@@ -46,27 +46,27 @@ static DIRECTIONS_SILVER: &[Direction] = &[
     Direction(1, -1),
 ];
 
-fn search_gold(grid: &Grid, start: Location) -> usize {
+fn search_gold(grid: &Grid, start: Position) -> usize {
     DIRECTIONS_GOLD
         .iter()
         .map(|&d| Vector(start, d))
-        .filter(|v| v.search(grid, "XMAS"))
+        .filter(|v| grid.search(v, "XMAS"))
         .count()
 }
 
-fn search_silver(grid: &Grid, start: Location) -> bool {
+fn search_silver(grid: &Grid, start: Position) -> bool {
     DIRECTIONS_SILVER
         .iter()
-        .filter_map(|&d| try_get_vector_silver(start, d))
-        .filter(|v| v.search(grid, "MAS"))
+        .filter_map(|&d| try_get_vector_silver(start, d).ok())
+        .filter(|v| grid.search(v, "MAS"))
         .count()
         > 1
 }
 
-fn try_get_vector_silver(start: Location, direction: Direction) -> Option<Vector> {
-    let start = (start + direction.into())?;
-    let direction = direction.invert();
-    Some(Vector(start, direction))
+fn try_get_vector_silver(start: Position, direction: Direction) -> Result<Vector, TryFromIntError> {
+    let start = (start + direction)?;
+    let direction = -1 * direction;
+    Ok(Vector(start, direction))
 }
 
 #[cfg(test)]

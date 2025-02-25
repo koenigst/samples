@@ -1,32 +1,14 @@
+use crate::vector::Position;
+
 use super::direction::*;
 
 #[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
-pub struct Position(pub usize, pub usize);
-
-impl Position {
-    fn try_move(self, direction: Direction) -> Option<Position> {
-        fn try_add(p: usize, d: i32) -> Option<usize> {
-            p
-                .try_into()
-                .ok()
-                .map(|v: i32| v + d)
-                .and_then(|o| o.try_into().ok())
-        }
-        
-        Option::zip(
-                try_add(self.0, direction.0), 
-                try_add(self.1, direction.1))
-            .map(|(x, y)| Position(x, y))
-    }
-}
-
-#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
-pub struct Guard(pub Position, pub Direction);
+pub struct Guard(pub Position, pub CardinalDirection);
 
 impl Guard {
     pub fn try_move(&self, map: & impl Maplike) -> Option<Guard> {
         let mut new_direction = self.1;
-        let mut new_position = self.0.try_move(new_direction)?;
+        let mut new_position = (self.0 + new_direction.into()).ok()?;
 
         if map.get(new_position)? {
             new_position = self.0;
