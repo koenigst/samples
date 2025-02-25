@@ -7,12 +7,14 @@ mod day03;
 mod day04;
 mod day05;
 mod day06;
+mod day07;
 mod solver;
 mod utilities;
 
 fn main() {
     let exec = &mut CliArgs::load().into();
 
+    solve_lines!(exec, 7, day07);
     solve_lines!(exec, 6, day06);
     solve_lines!(exec, 5, day05);
     solve_lines!(exec, 4, day04);
